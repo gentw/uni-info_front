@@ -1,0 +1,190 @@
+<div>
+
+<header role="banner">
+     
+      <nav class="navbar navbar-expand-md navbar-dark bg-light">
+        <div class="container">
+          <router-link class="navbar-brand" to="/"><img style="max-width: 150px" :src="'https://cms.uni-info.org/img/manjakos/'+home_info[0].logo" class="img-md-fluid"></router-link>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
+            <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
+              <li class="nav-item">
+                <router-link class="nav-link active"  to="/">Ballina</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link"  to="/about">Rreth Nesh</router-link>
+               
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link"  to="/contact">Kontakti</router-link>               
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link"  to="/help">Kerko ndihme</router-link>               
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- END header -->
+
+    <section v-bind:class="{ 'site-hero-active': changeBgSize }" class="site-hero overlay" data-stellar-background-ratio="0.5" :style="{ backgroundImage: `url(${ 'https://cms.uni-info.org/img/manjakos/' + home_info[0].background})` }">
+      <div class="container">
+        <div v-bind:class="{ 'site-hero-active': changeBgSize }" class="row align-items-center site-hero-inner justify-content-center">
+          <div class="col-md-8 text-center">
+
+            <div class="mb-5">
+              <h1>{{ home_info[0].first_title.en}}</h1>
+              <p>{{ home_info[0].second_title.en}}</p>
+            </div>
+
+            <form id="search-form">
+
+              <div class="form-row">
+                <div class="col-md-5 col-sm-12">
+                
+                  <label for="s" class="sr-only">Location</label>
+                  <select v-model="selectedDirection" id="universities" class="form-control search-input">
+                    <option value="" selected>Zgjedhe drejtimin (Te gjitha)</option>
+                    <option v-for="direction in directions" :value="direction.collections.title.en">
+                      {{ direction.collections.title.en  }}
+                    </option>
+                  </select>
+                </div>
+                
+                <div class="col-md-5 col-sm-12">
+                <select id="cities" v-model="selectedCity" class="form-control  search-input">
+                  <option value="" selected>Qyteti (Te gjitha)</option>
+                  <option  v-for="city in cities" :value="city.collections.title.en">
+                      {{ city.collections.title.en }}
+                    </option>
+                </select>
+                </div>
+
+                <div class="col-md-2 col-sm-12">             
+                
+                <button :disabled="isClicked" v-on:click="searchBtn" class="btn btn-primary">Kerko</button>
+                </div>
+               
+              </div>
+            </form>
+            <div v-if="error != ''" style="margin-left: 50px; margin-top: 20px;" class="alert alert-danger" role="alert">
+              {{error}}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END section -->
+
+  
+    <!-- END section -->
+
+    
+    <!-- END section -->
+    
+   
+    <!-- END section -->
+    <img v-if="showLoading == true" width="80" class="text-center" style="display: block;
+    margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;" src="assets/images/loading.gif">
+    
+    <section class="site-section" v-if="facultities.length > 0">
+      <div class="listing-section content-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <p style="color: #000;">{{searchResultsTxt}}</p>
+                <!-- Option bar start -->
+                <div class="option-bar d-none d-xl-block d-lg-block d-md-block d-sm-block">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-sm-7">
+                            <div class="sorting-options2">
+                                <span class="sort">Sort by:</span>
+                                <div class="dropdown bootstrap-select search-fields"><select class="selectpicker search-fields" name="default-order" tabindex="-98">
+                                    <option>Default Order</option>
+                                    <option>Price High to Low</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Newest listing</option>
+                                    <option>Oldest listing</option>
+                                </select><button type="button" class="btn dropdown-toggle btn-light" data-toggle="dropdown" role="button" title="Default Order"><div class="filter-option"><div class="filter-option-inner">Default Order</div></div>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5 col-sm-5">
+                            <div class="sorting-options">
+                                <a href="list-fullwidth.html" class="change-view-btn"><i class="fa fa-th-list"></i></a>
+                                <a href="grid-fullwidth.html" class="change-view-btn active-view-btn"><i class="fa fa-th-large"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+
+                    <div class="col-lg-4 col-md-6 col-sm-12" v-for="faculty in facultities">
+                        <div class="listing-item-box">
+                            <div class="listing-thumbnail">
+                                <a href="#" class="listing-photo">
+                                  
+                                  <!--  <div class="ratings">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <span>( 7 Reviews )</span>
+                                    </div>-->
+                                   <img class="d-block w-100" :src="'https://cms.uni-info.org/img/manjakos/'+faculty.collections.foto" alt="listing-photo" height="200" style="object-fit:cover;">
+                                </a>
+                            </div>
+                            <div class="detail">
+                                <h3 class="title">
+                                    <a :href="faculty.collections.web_link.en">{{faculty.collections.title.en}}</a>
+                                </h3>
+                                <p>
+                                  <strong>Rektori: </strong>{{faculty.collections.rektori.en}}<br>
+                                  <strong>Nr kontaktues: </strong>
+                                  {{faculty.collections.nr_kontaktues.en}}<br>
+                                  <strong>Email: </strong>{{faculty.collections.email.en}}<br>
+                                  <strong>Qyteti: </strong>{{faculty.collections.pagetype_rel_qyteti.en}}<br>
+                                  
+                                  <strong><a :href="faculty.collections.web_link.en">Linku WEB-it</a></strong>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                  
+                   
+                </div>
+                <!-- Page navigation start -->
+                <!-- <div class="pagination-box text-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#">Prev</a>
+                            </li>
+                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="grid-sidebar.html">2</a></li>
+                            <li class="page-item"><a class="page-link" href="list-sidebar.html">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="list-sidebar.html">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+    </section>
+    <!-- END section -->
+
+</div>
